@@ -25,6 +25,9 @@
     <ClCompile Include="..\src\ofxUeye.cpp">
       <Filter>addons\ofxUeye\src</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\ofxUeyeSettings.cpp">
+      <Filter>addons\ofxUeye\src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">

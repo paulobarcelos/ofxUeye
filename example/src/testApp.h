@@ -15,7 +15,7 @@ class testApp : public ofBaseApp{
 		void draw();
 		void keyPressed  (int key);
 		void exit();
-		void ueyeReady(ofxUeyeEventArgs &args); // Called after any bandwith change, immediately before the first frame is ready (allocate data and adjust pixel clock / fps / exposure here!)
+		void ueyeDimensionChanged(ofxUeyeEventArgs &args); //(allocate data and adjust pixel clock / fps / exposure here!)
 		
 		ofxUeye	ueye; // Only one instance of ofxUeye is allowed! ofxUeye is singleton.
 
