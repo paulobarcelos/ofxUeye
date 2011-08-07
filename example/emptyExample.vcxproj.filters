@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\testApp.cpp" />
+    <ClCompile Include="..\src\ofxUeye.cpp">
+      <Filter>ofxUeye\src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\testApp.h" />
+    <ClInclude Include="..\src\ofxUeyeSettings.h">
+      <Filter>ofxUeye\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ofxUeye.h">
+      <Filter>ofxUeye\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ofxUeyeEvents.h">
+      <Filter>ofxUeye\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\uEye.h">
+      <Filter>ofxUeye\src</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="ofxUeye">
+      <UniqueIdentifier>{b007327a-923c-4056-8058-7b017071eae6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ofxUeye\src">
+      <UniqueIdentifier>{31303811-bd28-4046-9bbf-d36ed73d6b85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ofxUeye\lib">
+      <UniqueIdentifier>{a5ba1afe-3e99-4c0f-9280-f3bc497bb3f2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\include\uEye_api.lib">
+      <Filter>ofxUeye\lib</Filter>
+    </Library>
+    <Library Include="..\include\uEye_api_64.lib">
+      <Filter>ofxUeye\lib</Filter>
+    </Library>
+  </ItemGroup>
+</Project>
