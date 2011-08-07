@@ -17,13 +17,6 @@ ofxUeyeSettings::ofxUeyeSettings()
 	ueye = NULL;
 }
 ///////////////////////////////////////////////////////////////////////////////////
-// Destructor --------------------------------------------------------------------
-///////////////////////////////////////////////////////////////////////////////////
-ofxUeyeSettings::~ofxUeyeSettings()
-{	
-	if(ueye != NULL) delete ueye;
-}
-///////////////////////////////////////////////////////////////////////////////////
 // setup --------------------------------------------------------------------------
 ///////////////////////////////////////////////////////////////////////////////////
 void ofxUeyeSettings::setup(ofxUeye* ueye, int accessKey, string label)
@@ -31,11 +24,11 @@ void ofxUeyeSettings::setup(ofxUeye* ueye, int accessKey, string label)
 	this->ueye = ueye;
 	settings.setup(accessKey, label);
 
-	/*settings.addMonitor(ueye, &ofxUeye::getBandwidth, "Bandwidth");
+	settings.addMonitor(ueye, &ofxUeye::getBandwidth, "Bandwidth");
 	settings.addMonitor(ueye, &ofxUeye::getSensorWidth, "Sensor_Width");
 	settings.addMonitor(ueye, &ofxUeye::getSensorHeight, "Sensor_Height");
 	settings.addMonitor(ueye, &ofxUeye::getWidth, "AOI_Width");
-	settings.addMonitor(ueye, &ofxUeye::getHeight, "AOI_Height");*/
+	settings.addMonitor(ueye, &ofxUeye::getHeight, "AOI_Height");
 
 	settings.addProperty(ueye, &ofxUeye::isLive,
 						 ueye, &ofxUeye::setLive,
@@ -62,22 +55,78 @@ void ofxUeyeSettings::setup(ofxUeye* ueye, int accessKey, string label)
 						 ueye, &ofxUeye::setBadPixelsCorrection,
 						 "Bad_pixels_correction",
 						 true);
-	
-	/*settings.addProperty(cm, &ColorsOfMovement::getNumStoredFrames,
-						 cm, &ColorsOfMovement::setNumStoredFrames,
-						 "Number_of_stored_frames",
-						 cm, &ColorsOfMovement::getNumStoredFramesMin,
-						 cm, &ColorsOfMovement::getNumStoredFramesMax,
-						 cm, &ColorsOfMovement::getNumStoredFramesStep,
-						 CM_DEFAULT_NUM_STORED_FRAMES);
-	
-	settings.addProperty(cm, &ColorsOfMovement::getMode,
-						 cm, &ColorsOfMovement::setMode,
-						 "Mode",
-						 cm, &ColorsOfMovement::getModeMin,
-						 cm, &ColorsOfMovement::getModeMax,
-						 cm, &ColorsOfMovement::getModeStep,
-						 (int)CM_DEFAULT_MODE);*/
+
+	settings.addProperty(ueye, &ofxUeye::isExposureTimeAuto,
+						 ueye, &ofxUeye::setAutoExposureTime,
+						 "Auto_Exposure",
+						 false);
+
+	settings.addProperty(ueye, &ofxUeye::getExposureTime,
+						 ueye, &ofxUeye::setExposureTime,
+						 "Exposure",
+						 ueye, &ofxUeye::getExposureTimeMin,
+						 ueye, &ofxUeye::getExposureTimeMax,
+						 ueye, &ofxUeye::getExposureTimeStep,
+						 ueye->getFPSMax());
+
+	/*settings.addProperty(ueye, &ofxUeye::isWhiteBalanceAuto,
+						 ueye, &ofxUeye::setAutoWhiteBalance,
+						 "Auto_WB",
+						 false);*/
+
+	settings.addProperty(ueye, &ofxUeye::isGainAuto,
+						 ueye, &ofxUeye::setAutoGain,
+						 "Auto_Gain",
+						 false);
+
+	settings.addProperty(ueye, &ofxUeye::getGainMaster,
+						 ueye, &ofxUeye::setGainMaster,
+						 "Master_Gain",
+						 ueye, &ofxUeye::getGainMasterMin,
+						 ueye, &ofxUeye::getGainMasterMax,
+						 ueye, &ofxUeye::getGainMasterStep,
+						 ueye->getGainMasterMax());
+
+	settings.addProperty(ueye, &ofxUeye::getGainRed,
+						 ueye, &ofxUeye::setGainRed,
+						 "Red_Gain",
+						 ueye, &ofxUeye::getGainRedMin,
+						 ueye, &ofxUeye::getGainRedMax,
+						 ueye, &ofxUeye::getGainRedStep,
+						 ueye->getGainRedMax());
+
+	settings.addProperty(ueye, &ofxUeye::getGainGreen,
+						 ueye, &ofxUeye::setGainGreen,
+						 "Green_Gain",
+						 ueye, &ofxUeye::getGainGreenMin,
+						 ueye, &ofxUeye::getGainGreenMax,
+						 ueye, &ofxUeye::getGainGreenStep,
+						 ueye->getGainGreenMax());
+
+	settings.addProperty(ueye, &ofxUeye::getGainBlue,
+						 ueye, &ofxUeye::setGainBlue,
+						 "Blue_Gain",
+						 ueye, &ofxUeye::getGainBlueMin,
+						 ueye, &ofxUeye::getGainBlueMax,
+						 ueye, &ofxUeye::getGainBlueStep,
+						 ueye->getGainBlueMax());
+
+	settings.addProperty(ueye, &ofxUeye::getColorSaturation,
+						 ueye, &ofxUeye::setColorSaturation,
+						 "Color_Saturation",
+						 ueye, &ofxUeye::getColorSaturationMin,
+						 ueye, &ofxUeye::getColorSaturationMax,
+						 ueye, &ofxUeye::getColorSaturationStep,
+						 ueye->getColorSaturationMax());
+
+	settings.addProperty(ueye, &ofxUeye::getColorCorrection,
+						 ueye, &ofxUeye::setColorCorrection,
+						 "Color_Correction",
+						 ueye, &ofxUeye::getColorCorrectionMin,
+						 ueye, &ofxUeye::getColorCorrectionMax,
+						 ueye, &ofxUeye::getColorCorrectionStep,
+						 ueye->getColorCorrectionMax());
+
 }
 ///////////////////////////////////////////////////////////////////////////////////
 // keyPressed ---------------------------------------------------------------------

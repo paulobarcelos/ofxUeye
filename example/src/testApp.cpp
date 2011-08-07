@@ -2,8 +2,6 @@
 
 //--------------------------------------------------------------
 void testApp::setup(){
-	ofxXmlSettings test;
-	test.saveFile("cu");
 	ofSetVerticalSync(true);
 	ofAddListener(ueye.events.dimensionChanged, this, &testApp::ueyeDimensionChanged);
 
@@ -14,7 +12,7 @@ void testApp::setup(){
 	{
 		//cout << (IS_BINNING_8X_VERTICAL | IS_BINNING_8X_HORIZONTAL) << endl;
 		// Get full area of the sensor, but skipping every second pixel
-		ueye.setBinning(IS_BINNING_4X_VERTICAL | IS_BINNING_4X_HORIZONTAL); // difference from subsamplimg? (apparently same bandwith but smoother image)
+		ueye.setBinning(IS_BINNING_2X_VERTICAL | IS_BINNING_2X_HORIZONTAL); // difference from subsamplimg? (apparently same bandwith but smoother image)
 	
 		// smooth the bad pixels (apparently they come from factory with bad pixels...)
 		//ueye.enableBadPixelsCorrection();

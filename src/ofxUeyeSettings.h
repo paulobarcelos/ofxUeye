@@ -14,6 +14,7 @@
 #include "ofxUeye.h"
 #include "ofxKeyboardSettings.h"
 
+
 ////////////////////////////////////////////////////////////
 // CLASS DEFINITION ----------------------------------------
 ////////////////////////////////////////////////////////////
@@ -21,10 +22,9 @@ class ofxUeyeSettings {
 	
 public:
 	ofxUeyeSettings();
-	~ofxUeyeSettings();
-	void				setup(ofxUeye* ueye, int accessKey = 'u', string label = "uEye");
-	void				keyPressed(int key);	
-	void				draw(float x, float y);
+	void		setup(ofxUeye* ueye, int accessKey = 'u', string label = "uEye");
+	void		keyPressed(int key);	
+	void		draw(float x, float y);
 	
 private:
 	

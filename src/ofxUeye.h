@@ -94,8 +94,9 @@ class ofxUeye{
 
 		// White Balance -----------------------------------------
 		void			setAutoWhiteBalance(bool value = true){if (value) enableAutoWhiteBalance(); else disableAutoWhiteBalance();};
-		int				enableAutoWhiteBalance(){double e = WB_MODE_AUTO; return is_SetAutoParameter (m_hCam, IS_SET_ENABLE_AUTO_SENSOR_WHITEBALANCE, &e, 0);};
-		int				disableAutoWhiteBalance(){double e = WB_MODE_DISABLE; return is_SetAutoParameter (m_hCam, IS_SET_ENABLE_AUTO_SENSOR_WHITEBALANCE, &e, 0);};
+		inline bool		isWhiteBalanceAuto(){double e ; is_SetAutoParameter (m_hCam, IS_GET_ENABLE_AUTO_SENSOR_WHITEBALANCE, &e, 0); return (e == 1.0)?true:false;};
+		inline int		enableAutoWhiteBalance(){double e = WB_MODE_AUTO; return is_SetAutoParameter (m_hCam, IS_SET_ENABLE_AUTO_SENSOR_WHITEBALANCE, &e, 0);};
+		inline int		disableAutoWhiteBalance(){double e = WB_MODE_DISABLE; return is_SetAutoParameter (m_hCam, IS_SET_ENABLE_AUTO_SENSOR_WHITEBALANCE, &e, 0);};
 	
 		// Gain -------------------------------------------
 		void			setAutoGain(bool value = true){if (value) enableAutoGain(); else disableAutoGain();};

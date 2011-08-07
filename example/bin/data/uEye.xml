@@ -1,0 +1,16 @@
+<uEye>
+    <Is_Live>1</Is_Live>
+    <Pixel_Clock>68</Pixel_Clock>
+    <FPS>22.5511</FPS>
+    <Bad_pixels_correction>1</Bad_pixels_correction>
+    <Auto_Exposure>0</Auto_Exposure>
+    <Exposure>44.2903</Exposure>
+    <Auto_WB>0</Auto_WB>
+    <Auto_Gain>0</Auto_Gain>
+    <Master_Gain>100</Master_Gain>
+    <Red_Gain>11</Red_Gain>
+    <Green_Gain>13</Green_Gain>
+    <Blue_Gain>45</Blue_Gain>
+    <Color_Saturation>131</Color_Saturation>
+    <Color_Correction>0</Color_Correction>
+</uEye>
