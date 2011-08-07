@@ -5,7 +5,7 @@ void testApp::setup(){
 
 	ofSetFrameRate(60);
 	ofSetVerticalSync(true);
-	ofAddListener(ueye.events.onReady, this, &testApp::ueyeReady);
+	ofAddListener(ueye.events.ready, this, &testApp::ueyeReady);
 
 	ueye.setVerbose(true);
 	ueye.listDevices();
@@ -24,8 +24,8 @@ void testApp::setup(){
 		fullHD.height = 1080;
 		fullHD.x = 0;
 		fullHD.y = (ueye.getAOIMax().height - fullHD.height) * 0.5;
-		//ueye.setAOI(fullHD);
-		ueye.setAOINormalized(ofRectangle(0,0, 0.6, 0.6));
+		ueye.setAOI(fullHD);
+		//ueye.setAOINormalized(ofRectangle(0,0, 0.6, 0.6));
 			
 		// Start grabbing pixels
 		ueye.enableLive();

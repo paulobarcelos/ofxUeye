@@ -9,10 +9,12 @@ class ofxUeyeEvents{
 public:
 	ofxUeyeEventArgs			voidEventArgs;
 
-	ofEvent<ofxUeyeEventArgs>	onReady;
-	ofEvent<ofxUeyeEventArgs>	onFrame;
-	ofEvent<ofxUeyeEventArgs>	onDeviceRemoved;
-	ofEvent<ofxUeyeEventArgs>	onDeviceReconnected;
+	ofEvent<ofxUeyeEventArgs>	ready;
+	ofEvent<ofxUeyeEventArgs>	newFrame;
+	ofEvent<ofxUeyeEventArgs>	dimensionChanged;
+	//ofEvent<ofxUeyeEventArgs>	bandwithChanged;
+	ofEvent<ofxUeyeEventArgs>	deviceRemoved;
+	ofEvent<ofxUeyeEventArgs>	deviceReconnected;
 };
 
 #endif

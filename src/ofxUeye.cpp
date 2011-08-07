@@ -683,23 +683,23 @@ void ofxUeye::preOnFrame(){
 	if(!bReady){
 		bReady = true;
 
-		ofNotifyEvent(events.onReady, events.voidEventArgs);
+		ofNotifyEvent(events.ready, events.voidEventArgs);
 	}
 
-	ofNotifyEvent(events.onFrame, events.voidEventArgs);
+	ofNotifyEvent(events.newFrame, events.voidEventArgs);
 }
 //////////////////////////////////////////////////////////////////////////////////
 // preOnDeviceRemoved ------------------------------------------------------------
 //////////////////////////////////////////////////////////////////////////////////
 void ofxUeye::preOnDeviceRemoved(){
 	bReady = false;
-	ofNotifyEvent(events.onDeviceRemoved, events.voidEventArgs);
+	ofNotifyEvent(events.deviceRemoved, events.voidEventArgs);
 }
 //////////////////////////////////////////////////////////////////////////////////
 // preOnDeviceReconected ---------------------------------------------------------
 //////////////////////////////////////////////////////////////////////////////////
 void ofxUeye::preOnDeviceReconected(){
-	ofNotifyEvent(events.onDeviceReconnected, events.voidEventArgs);
+	ofNotifyEvent(events.deviceReconnected, events.voidEventArgs);
 }
 
 
