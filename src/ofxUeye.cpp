@@ -111,7 +111,7 @@ void ofxUeye::close()
 	bReady = false;
 	bLive = false;
 	bIsFrameNew = false;
-	bPixelPreprocessed = false;
+	bIsWaitingNewFrame = true;
 	_binning = IS_BINNING_DISABLE;
 	_subSampling = IS_BINNING_DISABLE;
 	_scaler = 1.0;
@@ -136,7 +136,10 @@ void ofxUeye::close()
 //////////////////////////////////////////////////////////////////////////////////
 void ofxUeye::update()
 {
-	
+	if(!bIsWaitingNewFrame && bIsFrameNew)
+		bIsWaitingNewFrame = true;
+	else
+		bIsFrameNew = false;
 }
 
 //*************************************************************************************************************************
@@ -158,13 +161,7 @@ bool ofxUeye::isReady()
 //////////////////////////////////////////////////////////////////////////////////
 bool ofxUeye::isFrameNew()
 {
-	if(bIsFrameNew)
-	{
-		bIsFrameNew = false;
-		return true;
-	}
-	return false;
-	
+	return bIsFrameNew;	
 }
 //////////////////////////////////////////////////////////////////////////////////
 // getSensorWidth ----------------------------------------------------------------
@@ -220,10 +217,6 @@ ofRectangle ofxUeye::getAOIMax()
 //////////////////////////////////////////////////////////////////////////////////
 unsigned char* ofxUeye::getPixels()
 {
-	// check if pixels were preprocessed
-	if(!bPixelPreprocessed){
-		preprocessPixels(_fullPixels);
-	}
 	return _pixels;
 }
 //////////////////////////////////////////////////////////////////////////////////
@@ -332,6 +325,10 @@ int ofxUeye::setBinning(INT mode)
 {
 	bool wasLive = bLive;
 	if (wasLive) disableLive();
+
+	// As the binning change will make the camera irresponsive for a while, we need to flag as NOT ready for thread safety
+	bReady = false;
+
 	int result;
 	result = is_SetBinning (m_hCam, mode);
 	if(result == IS_SUCCESS){
@@ -353,6 +350,10 @@ int ofxUeye::setSubSampling(INT mode)
 {
 	bool wasLive = bLive;
 	if (wasLive) disableLive();
+
+	// As the subsampling change will make the camera irresponsive for a while, we need to flag as NOT ready for thread safety
+	bReady = false;
+
 	int result;
 	result = is_SetSubSampling (m_hCam, mode);
 	if(result == IS_SUCCESS){
@@ -374,6 +375,10 @@ int ofxUeye::setScaler(double factor)
 {
 	bool wasLive = bLive;
 	if (wasLive) disableLive();
+
+	// As the scaler change will make the camera irresponsive for a while, we need to flag as NOT ready for thread safety
+	bReady = false;
+
 	int result;
 	result = is_SetSensorScaler  (m_hCam, IS_ENABLE_SENSOR_SCALER | IS_ENABLE_ANTI_ALIASING, factor);
 	if(result == IS_SUCCESS){
@@ -469,6 +474,9 @@ int ofxUeye::setAOI(ofRectangle aoi)
 	ofClamp(newAOI.s32X, minPos.s32X, maxPos.s32X);
 	ofClamp(newAOI.s32Y, minPos.s32Y, maxPos.s32Y);
 
+	// As the AOI change will make the camera irresponsive for a while, we need to flag as NOT ready for thread safety
+	bReady = false;
+
 	// Apply the AOI
 	int result;
 	result = is_AOI( m_hCam, IS_AOI_IMAGE_SET_AOI, (void*)&newAOI, sizeof(newAOI));
@@ -481,6 +489,7 @@ int ofxUeye::setAOI(ofRectangle aoi)
 			ofLog(OF_LOG_WARNING, "ofxUeye - setAOI - Couldn't apply (%i, %i, %i, %i) value.", newAOI.s32X, newAOI.s32Y, newAOI.s32Width, newAOI.s32Height);
 	}
 	if (wasLive) enableLive();
+
 	return result;
 }
 //////////////////////////////////////////////////////////////////////////////////
@@ -605,9 +614,7 @@ void ofxUeye::updateDimensions()
 {
 	bool wasLive = bLive;
 	if (wasLive) disableLive();
-	// As there was a change in dimension, flag as NOT ready;
-	bReady = false;
-
+	
 	// Get current and maximum AOI
 	IS_RECT  curAOI; 
 	is_AOI(m_hCam, IS_AOI_IMAGE_GET_AOI, (void*)&curAOI, sizeof(curAOI));
@@ -631,6 +638,9 @@ void ofxUeye::updateDimensions()
 	if(_pixels != NULL) delete _pixels;
 	_pixels = new unsigned char [_width*_height*_channels];
 	if (wasLive) enableLive();
+		
+	// Notify that the dimensions has changed
+	ofNotifyEvent(events.dimensionChanged, events.voidEventArgs);
 }
 //////////////////////////////////////////////////////////////////////////////////
 // preprocessPixels --------------------------------------------------------------
@@ -657,9 +667,6 @@ void ofxUeye::preprocessPixels(unsigned char * rawPixels)
 			cnt++;
 		}
 	}
-
-	// Flag the pixels as proccessed
-	bPixelPreprocessed = true;
 }
 
 
@@ -674,18 +681,17 @@ void ofxUeye::preprocessPixels(unsigned char * rawPixels)
 // preOnFrame --------------------------------------------------------------------
 //////////////////////////////////////////////////////////////////////////////////
 void ofxUeye::preOnFrame(){
-
 	memcpy(_fullPixels,(unsigned char *)m_pcImageMemory, _sensorWidth*_sensorHeight*_channels);
+	if(bIsWaitingNewFrame){
+		bIsFrameNew = true;
+		bIsWaitingNewFrame = false;
+		preprocessPixels(_fullPixels);
 
-	bPixelPreprocessed = false;
-	bIsFrameNew = true;
-
-	if(!bReady){
-		bReady = true;
-
-		ofNotifyEvent(events.ready, events.voidEventArgs);
+		if(!bReady){
+			bReady = true;
+			//ofNotifyEvent(events.ready, events.voidEventArgs);
+		}
 	}
-
 	ofNotifyEvent(events.newFrame, events.voidEventArgs);
 }
 //////////////////////////////////////////////////////////////////////////////////

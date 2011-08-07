@@ -79,9 +79,9 @@ public:
 		reportStream	<<	((curSetting == SATURATION)?"*": "")	<<	"(s) Color Saturation: " << ueye->getColorSaturation() << " (min: " << ueye->getColorSaturationMin() << " | max: " << ueye->getColorSaturationMax() << " | step: " << ueye->getColorSaturationStep() << ")" << endl;
 		reportStream	<<	((curSetting == COLOR_CORRECTION)?"*": "")<<"(c) Color Correction: " << ueye->getColorCorrection() << " (min: " << ueye->getColorCorrectionMin() << " | max: " << ueye->getColorCorrectionMax() << " | step: " << ueye->getColorCorrectionStep() << ")" << endl;
 
-		ofSetColor(0x000000);
+		ofSetColor(0);
 		ofDrawBitmapString(reportStream.str(), x+1, y+1);
-		ofSetColor(0xffffff);
+		ofSetColor(255);
 		ofDrawBitmapString(reportStream.str(), x, y);
 	};
 private:

@@ -3,16 +3,15 @@
 //--------------------------------------------------------------
 void testApp::setup(){
 
-	ofSetFrameRate(60);
 	ofSetVerticalSync(true);
-	ofAddListener(ueye.events.ready, this, &testApp::ueyeReady);
+	ofAddListener(ueye.events.dimensionChanged, this, &testApp::ueyeDimensionChanged);
 
 	ueye.setVerbose(true);
 	ueye.listDevices();
 
 	if(ueye.init())
 	{
-		// Get full area of the sesor, but skipping every second pixel
+		// Get full area of the sensor, but skipping every second pixel
 		ueye.setBinning(IS_BINNING_4X_VERTICAL | IS_BINNING_4X_HORIZONTAL); // difference from subsamplimg? (apparently same bandwith but smoother image)
 	
 		// smooth the bad pixels (apparently they come from factory with bad pixels...)
@@ -34,7 +33,7 @@ void testApp::setup(){
 	settings.init(&ueye);
 }
 //--------------------------------------------------------------
-void testApp::ueyeReady(ofxUeyeEventArgs &args){
+void testApp::ueyeDimensionChanged(ofxUeyeEventArgs &args){
 	// If we got here, bandwith has changed.
 	// Pixel Clock, FPS and Exposure should be adjusted.
 	ueye.setPixelClock(ueye.getPixelClockMax());
@@ -47,6 +46,7 @@ void testApp::ueyeReady(ofxUeyeEventArgs &args){
 //--------------------------------------------------------------
 bool once =false;
 void testApp::update(){
+	ueye.update();
 	if(ueye.isReady() && ueye.isFrameNew())
 		tex.loadData(ueye.getPixels(), ueye.getWidth(), ueye.getHeight(), GL_RGB);
 }
