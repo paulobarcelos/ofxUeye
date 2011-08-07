@@ -122,6 +122,7 @@ if not exist "$(ProjectDir)\bin\data" mkdir  "$(ProjectDir)\bin\data"
     <ClCompile Include="..\..\ofxXmlSettings\libs\tinyxmlparser.cpp" />
     <ClCompile Include="..\..\ofxXmlSettings\src\ofxXmlSettings.cpp" />
     <ClCompile Include="..\src\ofxUeye.cpp" />
+    <ClCompile Include="..\src\ofxUeyeSettings.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\testApp.cpp" />
   </ItemGroup>

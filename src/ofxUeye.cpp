@@ -522,13 +522,15 @@ int ofxUeye::setFPS(double fps)
 //////////////////////////////////////////////////////////////////////////////////
 // setOptimalCameraTiming --------------------------------------------------------
 //////////////////////////////////////////////////////////////////////////////////
-void ofxUeye::setOptimalCameraTiming()
+void ofxUeye::setOptimalCameraTiming(bool value)
 {
-	int pixelClock;
-	double fps;
-	int result = is_SetOptimalCameraTiming (m_hCam, IS_BEST_PCLK_RUN_ONCE, 10000, &pixelClock, &fps);
-	is_SetPixelClock (m_hCam, pixelClock);
-	is_SetFrameRate (m_hCam, fps, &fps);
+	if(value){
+		int pixelClock;
+		double fps;
+		int result = is_SetOptimalCameraTiming (m_hCam, IS_BEST_PCLK_RUN_ONCE, 10000, &pixelClock, &fps);
+		is_SetPixelClock (m_hCam, pixelClock);
+		is_SetFrameRate (m_hCam, fps, &fps);
+	}
 }
 //////////////////////////////////////////////////////////////////////////////////
 // setOptimalCameraTiming --------------------------------------------------------
@@ -547,6 +549,7 @@ int ofxUeye::setColorCorrection(double factor){
 //////////////////////////////////////////////////////////////////////////////////
 int ofxUeye::enableBadPixelsCorrection()
 {
+	_badPixelCorrection = true;
     INT nRet;
 	nRet = is_HotPixel(m_hCam, IS_HOTPIXEL_ENABLE_SENSOR_CORRECTION, NULL, NULL);
 	if (nRet == IS_SUCCESS) return nRet;
@@ -560,6 +563,7 @@ int ofxUeye::enableBadPixelsCorrection()
 //////////////////////////////////////////////////////////////////////////////////
 int ofxUeye::disableBadPixelsCorrection()
 {
+	_badPixelCorrection = false;
     INT nRet = is_HotPixel(m_hCam, IS_HOTPIXEL_DISABLE_CORRECTION, NULL, NULL);
 	return nRet;
 }
